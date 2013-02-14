@@ -23,7 +23,6 @@
 							Datos.contexto.lineTo(x, y);
 							var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
 							Datos.contexto.stroke();
-							$("#codigo").append(codigo);
 						}
 					}).mouseout(function(){
 						console.log("cosas que pasan");
@@ -32,11 +31,11 @@
 
 				$("#forma-lineTo").click(function(){ 
 					Datos.isLineToOn = !Datos.isLineToOn;
-					var leyanda = Datos.isLineToOn? "lineTo: on" : "lineTo: off";
+					var leyanda = Datos.isLineToOn? "Dibujar: off" : "Dibujar: on";
 					$("#forma-lineTo").html(leyanda);
-					var codigo = "ctx.beginPath();<br/>";
-					$("#codigo").append(codigo);
-
+					if(Datos.isLineToOn){
+						Datos.contexto.beginPath();
+					}
 					imprimeConsolaDeSalida();
 				});
 			});
@@ -58,15 +57,9 @@
 	<body>
 		<canvas id="area-dibujo" width="200" height="200">
 		</canvas>
-		<button type="button" id="forma-lineTo">lineTo: off</button>
+		<button type="button" id="forma-lineTo">Dibujar: on</button>
 		<div id="console-de-salida">
 			> ...
-		</div>
-		<div id="codigo">
-			<br/>
-			<br/>
-			Cdigo generado:
-			<br/>
 		</div>
 	</body>
 </html>
