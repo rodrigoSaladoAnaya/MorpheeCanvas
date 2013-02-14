@@ -7,7 +7,6 @@
 				contexto: null,
 				pageX: 0,
 				pageY: 0,
-				isLineToOn: false,
 				getInitialPosX: function(){ 
 					return this.pageX -  $("#area-dibujo").offset().left
 				},
@@ -16,7 +15,7 @@
 				},
 				comportamientoDeNuevaLinea : function(){
 					$("#nueva-linea").click(function(){ 
-						Datos.isLineToOn = !Datos.isLineToOn;
+						//Datos.isLineToOn = !Datos.isLineToOn;
 						Datos.contexto.beginPath();
 						Datos.imprimeConsolaDeSalida();
 					});
