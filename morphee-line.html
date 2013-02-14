@@ -17,13 +17,11 @@
 						Datos.pageY = e.pageY;
 						imprimeConsolaDeSalida();
 					}).click(function(){
-						if(Datos.isLineToOn){
-							var x = Datos.pageX - $("#area-dibujo").offset().left;
-							var y = Datos.pageY - $("#area-dibujo").offset().top;
-							Datos.contexto.lineTo(x, y);
-							var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
-							Datos.contexto.stroke();
-						}
+						var x = Datos.pageX - $("#area-dibujo").offset().left;
+						var y = Datos.pageY - $("#area-dibujo").offset().top;
+						Datos.contexto.lineTo(x, y);
+						var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
+						Datos.contexto.stroke();
 					}).mouseout(function(){
 						console.log("cosas que pasan");
 						$("#console-de-salida").html("> ...");
@@ -31,11 +29,7 @@
 
 				$("#forma-lineTo").click(function(){ 
 					Datos.isLineToOn = !Datos.isLineToOn;
-					var leyanda = Datos.isLineToOn? "Dibujar: off" : "Dibujar: on";
-					$("#forma-lineTo").html(leyanda);
-					if(Datos.isLineToOn){
-						Datos.contexto.beginPath();
-					}
+					Datos.contexto.beginPath();
 					imprimeConsolaDeSalida();
 				});
 			});
@@ -57,9 +51,9 @@
 	<body>
 		<canvas id="area-dibujo" width="200" height="200">
 		</canvas>
-		<button type="button" id="forma-lineTo">Dibujar: on</button>
+		<button type="button" id="forma-lineTo">New line</button>
 		<div id="console-de-salida">
-			> ...
+			> Awaiting a position...
 		</div>
 	</body>
 </html>
