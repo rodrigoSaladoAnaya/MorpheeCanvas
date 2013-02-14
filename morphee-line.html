@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery-1.9.0.js">
+		</script>
+		<script type="text/javascript">
+			var Datos = {
+				contexto: null,
+				pageX: 0,
+				pageY: 0,
+				isLineToOn: false
+			}
+
+			$(document).ready(function(){
+				iniciaAreaDeDibujo();
+				$("#area-dibujo").mousemove(function(e){
+						Datos.pageX = e.pageX;
+						Datos.pageY = e.pageY;
+						imprimeConsolaDeSalida();
+					}).click(function(){
+						if(Datos.isLineToOn){
+							var x = Datos.pageX - $("#area-dibujo").offset().left;
+							var y = Datos.pageY - $("#area-dibujo").offset().top;
+							Datos.contexto.lineTo(x, y);
+							var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
+							Datos.contexto.stroke();
+							$("#codigo").append(codigo);
+						}
+					}).mouseout(function(){
+						console.log("cosas que pasan");
+						$("#console-de-salida").html("> ...");
+					});
+
+				$("#forma-lineTo").click(function(){ 
+					Datos.isLineToOn = !Datos.isLineToOn;
+					var leyanda = Datos.isLineToOn? "lineTo: on" : "lineTo: off";
+					$("#forma-lineTo").html(leyanda);
+					var codigo = "ctx.beginPath();<br/>";
+					$("#codigo").append(codigo);
+
+					imprimeConsolaDeSalida();
+				});
+			});
+
+			var imprimeConsolaDeSalida = function(pageX, pageY){
+				var salida = "> x: " + Datos.pageX + ", y: " + Datos.pageY + "<br/>";
+				$("#console-de-salida").html(salida);	
+			};
+
+			var iniciaAreaDeDibujo = function(){
+				Datos.contexto = $("#area-dibujo")[0].getContext("2d");
+				Datos.contexto.beginPath();
+			};
+		</script>
+		<style type="text/css">
+      		#area-dibujo  { border: 1px solid black; width: 200; height: 200;}
+		</style>
+	</head>
+	<body>
+		<canvas id="area-dibujo" width="200" height="200">
+		</canvas>
+		<button type="button" id="forma-lineTo">lineTo: off</button>
+		<div id="console-de-salida">
+			> ...
+		</div>
+		<div id="codigo">
+			<br/>
+			<br/>
+			Cdigo generado:
+			<br/>
+		</div>
+	</body>
+</html>
