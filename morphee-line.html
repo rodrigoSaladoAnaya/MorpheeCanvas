@@ -8,62 +8,59 @@
 				pageX: 0,
 				pageY: 0,
 				isLineToOn: false,
-				getInitialPosX: function(){ return this.pageX -  $("#area-dibujo").offset().left},
-				getInitialPosY: function(){ return this.pageY -  $("#area-dibujo").offset().top },
+				getInitialPosX: function(){ 
+					return this.pageX -  $("#area-dibujo").offset().left
+				},
+				getInitialPosY: function(){ 
+					return this.pageY -  $("#area-dibujo").offset().top 
+				},
+				comportamientoDeNuevaLinea : function(){
+					$("#nueva-linea").click(function(){ 
+						Datos.isLineToOn = !Datos.isLineToOn;
+						Datos.contexto.beginPath();
+						Datos.imprimeConsolaDeSalida();
+					});
+				},
+				comportamientoDelAreaDeDibujo: function(){
+					$("#area-dibujo").mousemove(function(e){
+						Datos.pageX = e.pageX;
+						Datos.pageY = e.pageY;
+						Datos.imprimeConsolaDeSalida();
+					}).click(function(){
+						var x = Datos.getInitialPosX();
+						var y = Datos.getInitialPosY();
+						Datos.contexto.lineTo(x, y);
+						Datos.contexto.stroke();
+					}).mouseout(function(){
+						Datos.muestraMensajeDeEspera();
+					});
+				},
+				ponePropiedadesDelAreaDeDibujo: function(){
+					$("#area-dibujo")
+						.attr("width", "200")
+						.attr("height", "200");
+					$("#area-dibujo").css("border","1px solid");
+				},
+				muestraMensajeDeEspera: function(){
+					$("#console-de-salida").html("> Awaiting a position...");
+				},
+				imprimeConsolaDeSalida: function(pageX, pageY){
+					var salida = "> x: " + Datos.pageX + ", y: " + Datos.pageY + "<br/>";
+					$("#console-de-salida").html(salida);	
+				},
+				iniciaAreaDeDibujo: function(){
+					Datos.contexto = $("#area-dibujo")[0].getContext("2d");
+					Datos.contexto.beginPath();
+				}
 			}
 
 			$(document).ready(function(){
-				ponePropiedadesDelAreaDeDibujo();
-				muestraMensajeDeEspera();
-				iniciaAreaDeDibujo();
-				comportamientoDelAreaDeDibujo();
-				comportamientoDeNuevaLinea();
+				Datos.ponePropiedadesDelAreaDeDibujo();
+				Datos.muestraMensajeDeEspera();
+				Datos.iniciaAreaDeDibujo();
+				Datos.comportamientoDelAreaDeDibujo();
+				Datos.comportamientoDeNuevaLinea();
 			});
-
-			var comportamientoDeNuevaLinea = function(){
-				$("#nueva-linea").click(function(){ 
-					Datos.isLineToOn = !Datos.isLineToOn;
-					Datos.contexto.beginPath();
-					imprimeConsolaDeSalida();
-				});
-			};
-
-			var comportamientoDelAreaDeDibujo = function(){
-				$("#area-dibujo").mousemove(function(e){
-					Datos.pageX = e.pageX;
-					Datos.pageY = e.pageY;
-					imprimeConsolaDeSalida();
-				}).click(function(){
-					var x = Datos.getInitialPosX();
-					var y = Datos.getInitialPosY();
-					Datos.contexto.lineTo(x, y);
-					var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
-					Datos.contexto.stroke();
-				}).mouseout(function(){
-					muestraMensajeDeEspera();
-				});
-			};
-
-			var ponePropiedadesDelAreaDeDibujo = function(){
-				$("#area-dibujo")
-					.attr("width", "200")
-					.attr("height", "200");
-				$("#area-dibujo").css("border","1px solid");
-			};
-
-			var muestraMensajeDeEspera = function(){
-				$("#console-de-salida").html("> Awaiting a position...");
-			};
-
-			var imprimeConsolaDeSalida = function(pageX, pageY){
-				var salida = "> x: " + Datos.pageX + ", y: " + Datos.pageY + "<br/>";
-				$("#console-de-salida").html(salida);	
-			};
-
-			var iniciaAreaDeDibujo = function(){
-				Datos.contexto = $("#area-dibujo")[0].getContext("2d");
-				Datos.contexto.beginPath();
-			};
 		</script>
 	</head>
 	<body>
