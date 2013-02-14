@@ -7,32 +7,53 @@
 				contexto: null,
 				pageX: 0,
 				pageY: 0,
-				isLineToOn: false
+				isLineToOn: false,
+				getInitialPosX: function(){ return this.pageX -  $("#area-dibujo").offset().left},
+				getInitialPosY: function(){ return this.pageY -  $("#area-dibujo").offset().top },
 			}
 
 			$(document).ready(function(){
+				ponePropiedadesDelAreaDeDibujo();
+				muestraMensajeDeEspera();
 				iniciaAreaDeDibujo();
-				$("#area-dibujo").mousemove(function(e){
-						Datos.pageX = e.pageX;
-						Datos.pageY = e.pageY;
-						imprimeConsolaDeSalida();
-					}).click(function(){
-						var x = Datos.pageX - $("#area-dibujo").offset().left;
-						var y = Datos.pageY - $("#area-dibujo").offset().top;
-						Datos.contexto.lineTo(x, y);
-						var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
-						Datos.contexto.stroke();
-					}).mouseout(function(){
-						console.log("cosas que pasan");
-						$("#console-de-salida").html("> ...");
-					});
+				comportamientoDelAreaDeDibujo();
+				comportamientoDeNuevaLinea();
+			});
 
-				$("#forma-lineTo").click(function(){ 
+			var comportamientoDeNuevaLinea = function(){
+				$("#nueva-linea").click(function(){ 
 					Datos.isLineToOn = !Datos.isLineToOn;
 					Datos.contexto.beginPath();
 					imprimeConsolaDeSalida();
 				});
-			});
+			};
+
+			var comportamientoDelAreaDeDibujo = function(){
+				$("#area-dibujo").mousemove(function(e){
+					Datos.pageX = e.pageX;
+					Datos.pageY = e.pageY;
+					imprimeConsolaDeSalida();
+				}).click(function(){
+					var x = Datos.getInitialPosX();
+					var y = Datos.getInitialPosY();
+					Datos.contexto.lineTo(x, y);
+					var codigo = "ctx.lineTo("+ x +", " + y +");<br/>";
+					Datos.contexto.stroke();
+				}).mouseout(function(){
+					muestraMensajeDeEspera();
+				});
+			};
+
+			var ponePropiedadesDelAreaDeDibujo = function(){
+				$("#area-dibujo")
+					.attr("width", "200")
+					.attr("height", "200");
+				$("#area-dibujo").css("border","1px solid");
+			};
+
+			var muestraMensajeDeEspera = function(){
+				$("#console-de-salida").html("> Awaiting a position...");
+			};
 
 			var imprimeConsolaDeSalida = function(pageX, pageY){
 				var salida = "> x: " + Datos.pageX + ", y: " + Datos.pageY + "<br/>";
@@ -44,16 +65,10 @@
 				Datos.contexto.beginPath();
 			};
 		</script>
-		<style type="text/css">
-      		#area-dibujo  { border: 1px solid black; width: 200; height: 200;}
-		</style>
 	</head>
 	<body>
-		<canvas id="area-dibujo" width="200" height="200">
-		</canvas>
-		<button type="button" id="forma-lineTo">New line</button>
-		<div id="console-de-salida">
-			> Awaiting a position...
-		</div>
+		<canvas id="area-dibujo" border=1px></canvas>
+		<button type="button" id="nueva-linea">New line</button>
+		<div id="console-de-salida" />
 	</body>
 </html>
