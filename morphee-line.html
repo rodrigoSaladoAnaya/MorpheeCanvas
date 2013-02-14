@@ -4,7 +4,7 @@
 		</script>
 		<script type="text/javascript">
 			var Datos = {
-				contexto: null,
+				contextoCanvas: null,
 				pageX: 0,
 				pageY: 0,
 				getInitialPosX: function(){ 
@@ -15,8 +15,7 @@
 				},
 				comportamientoDeNuevaLinea : function(){
 					$("#nueva-linea").click(function(){ 
-						//Datos.isLineToOn = !Datos.isLineToOn;
-						Datos.contexto.beginPath();
+						Datos.contextoCanvas.beginPath();
 						Datos.imprimeConsolaDeSalida();
 					});
 				},
@@ -28,8 +27,8 @@
 					}).click(function(){
 						var x = Datos.getInitialPosX();
 						var y = Datos.getInitialPosY();
-						Datos.contexto.lineTo(x, y);
-						Datos.contexto.stroke();
+						Datos.contextoCanvas.lineTo(x, y);
+						Datos.contextoCanvas.stroke();
 					}).mouseout(function(){
 						Datos.muestraMensajeDeEspera();
 					});
@@ -48,8 +47,8 @@
 					$("#console-de-salida").html(salida);	
 				},
 				iniciaAreaDeDibujo: function(){
-					Datos.contexto = $("#area-dibujo")[0].getContext("2d");
-					Datos.contexto.beginPath();
+					Datos.contextoCanvas = $("#area-dibujo")[0].getContext("2d");
+					Datos.contextoCanvas.beginPath();
 				}
 			}
 
