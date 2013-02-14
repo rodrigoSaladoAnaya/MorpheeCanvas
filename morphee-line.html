@@ -3,7 +3,7 @@
 		<script type="text/javascript" src="jquery-1.9.0.js">
 		</script>
 		<script type="text/javascript">
-			var Datos = {
+			var Canvas = {
 				contextoCanvas: null,
 				pageX: 0,
 				pageY: 0,
@@ -15,22 +15,22 @@
 				},
 				comportamientoDeNuevaLinea : function(){
 					$("#nueva-linea").click(function(){ 
-						Datos.contextoCanvas.beginPath();
-						Datos.imprimeConsolaDeSalida();
+						Canvas.contextoCanvas.beginPath();
+						Canvas.imprimeConsolaDeSalida();
 					});
 				},
 				comportamientoDelAreaDeDibujo: function(){
 					$("#area-dibujo").mousemove(function(e){
-						Datos.pageX = e.pageX;
-						Datos.pageY = e.pageY;
-						Datos.imprimeConsolaDeSalida();
+						Canvas.pageX = e.pageX;
+						Canvas.pageY = e.pageY;
+						Canvas.imprimeConsolaDeSalida();
 					}).click(function(){
-						var x = Datos.getInitialPosX();
-						var y = Datos.getInitialPosY();
-						Datos.contextoCanvas.lineTo(x, y);
-						Datos.contextoCanvas.stroke();
+						var x = Canvas.getInitialPosX();
+						var y = Canvas.getInitialPosY();
+						Canvas.contextoCanvas.lineTo(x, y);
+						Canvas.contextoCanvas.stroke();
 					}).mouseout(function(){
-						Datos.muestraMensajeDeEspera();
+						Canvas.muestraMensajeDeEspera();
 					});
 				},
 				ponePropiedadesDelAreaDeDibujo: function(){
@@ -43,21 +43,21 @@
 					$("#console-de-salida").html("> Awaiting a position...");
 				},
 				imprimeConsolaDeSalida: function(pageX, pageY){
-					var salida = "> x: " + Datos.pageX + ", y: " + Datos.pageY + "<br/>";
+					var salida = "> x: " + Canvas.pageX + ", y: " + Canvas.pageY + "<br/>";
 					$("#console-de-salida").html(salida);	
 				},
-				iniciaAreaDeDibujo: function(){
-					Datos.contextoCanvas = $("#area-dibujo")[0].getContext("2d");
-					Datos.contextoCanvas.beginPath();
+				iniciaContextoDeAreaDeDibujo: function(){
+					Canvas.contextoCanvas = $("#area-dibujo")[0].getContext("2d");
+					Canvas.contextoCanvas.beginPath();
 				}
 			}
 
 			$(document).ready(function(){
-				Datos.ponePropiedadesDelAreaDeDibujo();
-				Datos.muestraMensajeDeEspera();
-				Datos.iniciaAreaDeDibujo();
-				Datos.comportamientoDelAreaDeDibujo();
-				Datos.comportamientoDeNuevaLinea();
+				Canvas.ponePropiedadesDelAreaDeDibujo();
+				Canvas.muestraMensajeDeEspera();
+				Canvas.iniciaContextoDeAreaDeDibujo();
+				Canvas.comportamientoDelAreaDeDibujo();
+				Canvas.comportamientoDeNuevaLinea();
 			});
 		</script>
 	</head>
